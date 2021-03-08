@@ -1,6 +1,6 @@
 {
   "name": "react-native-version-env-manager",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Manage version/buildNumber in your react native app directly from package.json for both platforms (ios && android) with one command",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "yargs": "16.2.0"
   },
   "devDependencies": {
-    "yarn": "0.21.3",
-    "prettier": "^2.0.4"
+    "prettier": "^2.0.4",
+    "yarn": "0.21.3"
   }
 }
