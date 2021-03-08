@@ -1,6 +1,7 @@
 const log = require('./lib/log');
 const fs = require('fs');
 const path = require('path');
+const helpers = require('./lib/helpers');
 
 // prettier-ignore
 const envFileTemplate =
@@ -59,11 +60,41 @@ function copyContentToEnvFile(pathToEnv, envFileExt, envFileContent) {
   );
 }
 
-module.exports = function (pathToEnv, envToSet, envFileExt) {
+function addEnvAsPostfixToVersionInPackageJsonFile(
+  shouldAddEnvAsPostfix,
+  pathToPackage,
+  envToSet
+) {
+  let postFix;
+  let notify;
+  if (shouldAddEnvAsPostfix) {
+    postFix = `-${envToSet.toUpperCase()}`;
+    notify = () =>
+      log.notice(`Added ${postFix} as a postfix to version in package.json`);
+  } else {
+    postFix = '';
+  }
+
+  helpers.addPostfixToVersionInPackageInfo(pathToPackage, postFix);
+  notify?.();
+}
+
+module.exports = function (
+  pathToEnv,
+  envToSet,
+  pathToPackage,
+  envFileExt,
+  shouldAddEnvAsPostfix
+) {
   pathToEnv = normalizePath(pathToEnv);
   let envFileContent = createEnvFileContent(pathToEnv, envToSet);
   removeExistingEnvFiles(pathToEnv);
   copyContentToEnvFile(pathToEnv, envFileExt, envFileContent);
+  addEnvAsPostfixToVersionInPackageJsonFile(
+    shouldAddEnvAsPostfix,
+    pathToPackage,
+    envToSet
+  );
   // notify
   log.success('Environment set: ' + envToSet.toUpperCase());
 };
