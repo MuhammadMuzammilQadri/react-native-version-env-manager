@@ -1,0 +1,29 @@
+{
+  "name": "react-native-version-env-manager",
+  "version": "1.0.0",
+  "description": "Manage version/buildNumber in your react native app directly from package.json for both platforms (ios && android) with one command",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react native version",
+    "react native env",
+    "react native version env manager"
+  ],
+  "author": "Muhammad Muzammil",
+  "contributors": [
+    "Pavel Kondratenko"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "4.1.0",
+    "child_process": "1.0.2",
+    "fs": "0.0.1-security",
+    "readline-sync": "1.4.10",
+    "yargs": "16.2.0"
+  },
+  "devDependencies": {
+    "yarn": "0.21.3"
+  }
+}
