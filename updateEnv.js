@@ -1,14 +1,69 @@
 const log = require('./lib/log');
 const fs = require('fs');
+const path = require('path');
 
-module.exports = function (pathToEnv, envToSet) {
-  // remove / at the end of the path
-  pathToEnv = pathToEnv.charAt(-1) === '/' ? pathToEnv.slice(0, -1) : pathToEnv;
+// prettier-ignore
+const envFileTemplate =
+  'const Env = {\n' +
+  '  ${template}' +
+  '\n};\n' +
+  '\n' +
+  'export default Env;\n';
+
+function createEnvFileContent(pathToEnv, envToSet) {
   // read the content of the specified env file
-  // const envFileContent = require(`${pathToEnv}/${envToSet}.ts`);
-  const envFileContent = fs.readFileSync(`${pathToEnv}/${envToSet}.ts`);
-  // copy the json inside the env file
-  fs.writeFileSync(`${pathToEnv}/env.ts`, envFileContent, 'utf8');
+  let envFileContent = fs
+    .readFileSync(`${pathToEnv}/${envToSet}.env`)
+    .toString()
+    .trim()
+    .split('\n')
+    .filter((value) => value.trim() !== '');
+
+  // insert current env as a property
+  envFileContent.unshift(`CURRENT: '${envToSet.toUpperCase()}'`);
+
+  // create a js/ts file from template
+  envFileContent = envFileTemplate.replace(
+    '${template}',
+    envFileContent.join(',\n  ')
+  );
+  return envFileContent;
+}
+
+function normalizePath(pathToEnv) {
+  // remove `/` at the end of the path
+  return pathToEnv.charAt(-1) === '/' ? pathToEnv.slice(0, -1) : pathToEnv;
+}
+
+function removeExistingEnvFiles(pathToEnv) {
+  // remove any existing env.* files if exist
+  const envFiles = fs.readdirSync(pathToEnv).filter((el) => {
+    return path.basename(el).split('.')[0] === 'env';
+  });
+
+  envFiles.map((fileName) => {
+    log.info(`Removing old ${fileName} file: `);
+    try {
+      fs.unlinkSync(`${pathToEnv}/${fileName}`);
+    } catch (e) {
+      log.error(e);
+    }
+  });
+}
+
+function copyContentToEnvFile(pathToEnv, envFileExt, envFileContent) {
+  fs.writeFileSync(
+    `${pathToEnv}/env.${envFileExt || 'js'}`,
+    envFileContent,
+    'utf8'
+  );
+}
+
+module.exports = function (pathToEnv, envToSet, envFileExt) {
+  pathToEnv = normalizePath(pathToEnv);
+  let envFileContent = createEnvFileContent(pathToEnv, envToSet);
+  removeExistingEnvFiles(pathToEnv);
+  copyContentToEnvFile(pathToEnv, envFileExt, envFileContent);
   // notify
   log.success('Environment set: ' + envToSet.toUpperCase());
 };

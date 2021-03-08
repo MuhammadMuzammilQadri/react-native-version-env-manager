@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Warning: No test specified\" && exit 0",
-    "publishPackage": "np --no-2fa"
+    "publishPackage": "np"
   },
   "keywords": [
     "react native version",
@@ -25,6 +25,7 @@
     "yargs": "16.2.0"
   },
   "devDependencies": {
-    "yarn": "0.21.3"
+    "yarn": "0.21.3",
+    "prettier": "^2.0.4"
   }
 }

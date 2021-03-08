@@ -4,18 +4,15 @@
   "buildNumber": 5,
   "private": true,
   "scripts": {
-    "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "updateVersion": "node node_modules/react-native-version-env-manager --updateVersion",
-    "env:dev": "node node_modules/react-native-version-env-manager --env=dev",
-    "env:prod": "node node_modules/react-native-version-env-manager --env=prod",
-    "env:staging": "node node_modules/react-native-version-env-manager --env=staging"
+    "updateVersion": "node ../../react-native-version-env-manager --updateVersion",
+    "env:dev": "node ../../react-native-version-env-manager --env=dev --envFileExt=ts",
+    "env:prod": "node ../../react-native-version-env-manager --env=prod --envFileExt=ts",
+    "env:staging": "node ../../react-native-version-env-manager --env=staging --envFileExt=ts"
   },
   "dependencies": {
     "yargs": "16.2.0"
   },
   "devDependencies": {
-    "yarn": "0.21.3",
-    "react-native-version-env-manager": "^1.0.2"
+    "yarn": "0.21.3"
   }
 }

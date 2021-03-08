@@ -7,6 +7,7 @@ const pathToRoot = process.cwd();
 
 const pathToEnv = argv.pathToEnv || `${pathToRoot}/src/envs`;
 const envToSet = argv.env;
+const envFileExt = argv.envFileExt;
 
 const pathToPackage = argv.pathToPackage || `${pathToRoot}/package.json`;
 const info = helpers.getPackageInfo(pathToPackage);
@@ -31,5 +32,5 @@ if (shouldUpdateVersion) {
 }
 
 if (envToSet) {
-  updateEnv(pathToEnv, envToSet);
+  updateEnv(pathToEnv, envToSet, envFileExt);
 }
