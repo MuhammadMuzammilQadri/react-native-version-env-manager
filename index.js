@@ -34,9 +34,12 @@ if (shouldUpdateVersion) {
 
 if (envToSet) {
   updateEnv(
+    pathToPackage,
+    pathToGradle,
+    pathToPlist,
+    pathsToPlists,
     pathToEnv,
     envToSet,
-    pathToPackage,
     envFileExt,
     shouldAddEnvAsPostfix
   );

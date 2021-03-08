@@ -2,7 +2,7 @@ const helpers = require('./lib/helpers');
 const log = require('./lib/log');
 const readlineSync = require('readline-sync');
 
-module.exports = function (
+module.exports = async function (
   shouldWorkSilently,
   pathToPackage,
   pathToGradle,
@@ -25,32 +25,40 @@ module.exports = function (
 
   helpers.getBuildNumberFromPlist(pathsToPlists[0]);
 
-  log.info('\nSetting the version in:');
+  if (shouldWorkSilently) {
+    log.notice('\nSetting the version in Android & iOS...');
+    log.notice(
+      `From: ${versionName}(${versionCode}), To: ${toBeVersionName}(${toBeBuildNumber}) `
+    );
+  } else {
+    log.info('\nSetting the version in:');
 
-  log.imp('- ios project ', `(${pathsToPlists.join(', ')})`, 1);
-  log.info('- current:', 2);
-  log.notice(
-    `- CFBundleShortVersionString: ${CFBundleShortVersionString}, CFBundleVersion: ${CFBundleVersion}`,
-    3
-  );
-  log.info('- to:', 2);
-  log.notice(
-    `- CFBundleShortVersionString: ${toBeVersionName}, CFBundleVersion: ${toBeBuildNumber}`,
-    3
-  );
+    log.imp('- ios project ', `(${pathsToPlists.join(', ')})`, 1);
+    log.info('- current:', 2);
+    log.notice(
+      `- CFBundleShortVersionString: ${CFBundleShortVersionString}, CFBundleVersion: ${CFBundleVersion}`,
+      3
+    );
+    log.info('- to:', 2);
+    log.notice(
+      `- CFBundleShortVersionString: ${toBeVersionName}, CFBundleVersion: ${toBeBuildNumber}`,
+      3
+    );
 
-  log.imp('- android project ', `(${pathToGradle})`, 1);
-  log.info('- current:', 2);
-  log.notice(`- versionName: ${versionName}, versionCode: ${versionCode}`, 3);
-  log.info('- to:', 2);
-  log.notice(
-    `- versionName: ${toBeVersionName}, versionCode: ${toBeBuildNumber}`,
-    3
-  );
+    log.imp('- android project ', `(${pathToGradle})`, 1);
+    log.info('- current:', 2);
+    log.notice(`- versionName: ${versionName}, versionCode: ${versionCode}`, 3);
+    log.info('- to:', 2);
+    log.notice(
+      `- versionName: ${toBeVersionName}, versionCode: ${toBeBuildNumber}`,
+      3
+    );
+  }
 
   function updateVersionInIos() {
     return () => {
-      log.info('Updating version in ios project...', 1);
+      if (!shouldWorkSilently)
+        log.info('Updating version in ios project...', 1);
 
       pathsToPlists.forEach((pathToPlist) => {
         helpers.changeVersionAndBuildInPlist(
@@ -59,26 +67,29 @@ module.exports = function (
           toBeBuildNumber
         );
       });
-      log.success(
-        'Version and build number in ios project (plist file) changed.',
-        2
-      );
+      if (!shouldWorkSilently)
+        log.success(
+          'Version and build number in ios project (plist file) changed.',
+          2
+        );
     };
   }
 
   function updateVersionInAndroid() {
     return () => {
-      log.info('Updating version in android project...', 1);
+      if (!shouldWorkSilently)
+        log.info('Updating version in android project...', 1);
 
       helpers.changeVersionAndBuildInGradle(
         pathToGradle,
         toBeVersionName,
         toBeBuildNumber
       );
-      log.success(
-        'Version and build number in android project (gradle file) changed.',
-        2
-      );
+      if (!shouldWorkSilently)
+        log.success(
+          'Version and build number in android project (gradle file) changed.',
+          2
+        );
     };
   }
 
@@ -95,9 +106,9 @@ module.exports = function (
     answer === 'y' ? resolve() : reject('Process canceled.');
   });
 
-  askForConfirmation
+  await askForConfirmation
     .then(() => {
-      log.notice('\nUpdating versions');
+      if (!shouldWorkSilently) log.notice('\nUpdating versions');
     })
     .then(updateVersionInIos())
     .then(updateVersionInAndroid())

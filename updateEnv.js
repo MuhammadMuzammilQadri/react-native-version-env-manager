@@ -1,3 +1,4 @@
+const updateVersion = require('./updateVersion');
 const log = require('./lib/log');
 const fs = require('fs');
 const path = require('path');
@@ -70,7 +71,7 @@ function addEnvAsPostfixToVersionInPackageJsonFile(
   if (shouldAddEnvAsPostfix) {
     postFix = `-${envToSet.toUpperCase()}`;
     notify = () =>
-      log.notice(`Added ${postFix} as a postfix to version in package.json`);
+      log.imp('', `Added ${postFix} as a postfix to version in package.json`);
   } else {
     postFix = '';
   }
@@ -79,10 +80,13 @@ function addEnvAsPostfixToVersionInPackageJsonFile(
   notify?.();
 }
 
-module.exports = function (
+module.exports = async function (
+  pathToPackage,
+  pathToGradle,
+  pathToPlist,
+  pathsToPlists,
   pathToEnv,
   envToSet,
-  pathToPackage,
   envFileExt,
   shouldAddEnvAsPostfix
 ) {
@@ -94,6 +98,14 @@ module.exports = function (
     shouldAddEnvAsPostfix,
     pathToPackage,
     envToSet
+  );
+  // update version in android/iOS
+  await updateVersion(
+    true,
+    pathToPackage,
+    pathToGradle,
+    pathToPlist,
+    pathsToPlists
   );
   // notify
   log.success('Environment set: ' + envToSet.toUpperCase());
