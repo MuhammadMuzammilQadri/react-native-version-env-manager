@@ -4,7 +4,8 @@
   "description": "Manage version/buildNumber in your react native app directly from package.json for both platforms (ios && android) with one command",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Warning: No test specified\" && exit 0"
+    "test": "echo \"Warning: No test specified\" && exit 0",
+    "publishPackage": "np --no-2fa"
   },
   "keywords": [
     "react native version",
