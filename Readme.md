@@ -3,12 +3,12 @@
 
 Manage version/buildNumber in your react native app directly from `package.json` for both platforms (iOS && Android) with one command
 ```
-node react-native-version-env-manager --updateVersion'
+node node_modules/react-native-version-env-manager --updateVersion'
 ```
 
 For switching to a different env
 ```
-node react-native-version-env-manager --env=dev
+node node_modules/react-native-version-env-manager --env=dev
 ```
 
 ## Installation
@@ -27,7 +27,7 @@ npm install react-native-version-env-manager --save
 {
   "name": "your-project-name",
   "scripts": {
-    "updateVersion": "node react-native-version-env-manager --updateVersion",
+    "updateVersion": "node node_modules/react-native-version-env-manager --updateVersion",
   }
 }
 ```
@@ -39,7 +39,7 @@ npm install react-native-version-env-manager --save
   "version": "1.0.0",
   "buildNumber": 1,
   "scripts": {
-    "updateVersion": "node react-native-version-env-manager --updateVersion",
+    "updateVersion": "node node_modules/react-native-version-env-manager --updateVersion",
   }
 }
 ```
