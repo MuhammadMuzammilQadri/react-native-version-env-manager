@@ -64,12 +64,12 @@ function copyContentToEnvFile(pathToEnv, envFileExt, envFileContent) {
 function addEnvAsPostfixToVersionInPackageJsonFile(
   shouldAddEnvAsPostfix,
   pathToPackage,
-  envToSet
+  tagForEnv
 ) {
   let postFix;
   let notify;
   if (shouldAddEnvAsPostfix) {
-    postFix = `-${envToSet.toUpperCase()}`;
+    postFix = `-${tagForEnv.toUpperCase()}`;
     notify = () =>
       log.imp('', `Added ${postFix} as a postfix to version in package.json`);
   } else {
@@ -88,6 +88,7 @@ module.exports = async function (
   pathToEnv,
   envToSet,
   envFileExt,
+  tagForEnv,
   shouldAddEnvAsPostfix
 ) {
   pathToEnv = normalizePath(pathToEnv);
@@ -97,7 +98,7 @@ module.exports = async function (
   addEnvAsPostfixToVersionInPackageJsonFile(
     shouldAddEnvAsPostfix,
     pathToPackage,
-    envToSet
+    tagForEnv
   );
   // update version in android/iOS
   await updateVersion(

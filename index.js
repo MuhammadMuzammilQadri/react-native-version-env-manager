@@ -7,6 +7,7 @@ const pathToRoot = process.cwd();
 
 const pathToEnv = argv.pathToEnv || `${pathToRoot}/src/envs`;
 const envToSet = argv.env;
+const tagForEnv = argv.envTag || envToSet;
 const envFileExt = argv.envFileExt;
 const shouldAddEnvAsPostfix = argv.addEnvAsPostfix;
 
@@ -41,6 +42,7 @@ if (envToSet) {
     pathToEnv,
     envToSet,
     envFileExt,
+    tagForEnv,
     shouldAddEnvAsPostfix
   );
 }

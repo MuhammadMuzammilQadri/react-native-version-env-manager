@@ -1,11 +1,11 @@
 {
   "name": "Example",
-  "version": "1.0.5-DEV+3.67",
+  "version": "1.0.5-DEVELOPMENT+3.67",
   "buildNumber": 5,
   "private": true,
   "scripts": {
     "updateVersion": "node ../../react-native-version-env-manager --updateVersion",
-    "env:dev": "node ../../react-native-version-env-manager --env=dev --envFileExt=ts --addEnvAsPostfix",
+    "env:dev": "node ../../react-native-version-env-manager --env=dev --envTag=development --envFileExt=ts --addEnvAsPostfix",
     "env:prod": "node ../../react-native-version-env-manager --env=prod --envFileExt=ts",
     "env:staging": "node ../../react-native-version-env-manager --env=staging --envFileExt=ts --addEnvAsPostfix"
   },
