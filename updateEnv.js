@@ -77,7 +77,7 @@ function addEnvAsPostfixToVersionInPackageJsonFile(
   }
 
   helpers.addPostfixToVersionInPackageInfo(pathToPackage, postFix);
-  notify?.();
+  notify === null || notify === void 0 ? void 0 : notify();
 }
 
 module.exports = async function (
