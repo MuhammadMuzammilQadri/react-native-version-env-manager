@@ -1,6 +1,6 @@
 {
   "name": "Example",
-  "version": "1.0.5-DEV",
+  "version": "1.0.5-DEV+3.67",
   "buildNumber": 5,
   "private": true,
   "scripts": {
